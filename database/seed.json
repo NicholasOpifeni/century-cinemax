@@ -1,0 +1,77 @@
+{
+  "layouts": {
+    "standard": {
+      "columns": 22,
+      "rows": [
+        { "row": "A", "type": "standard", "blocks": [[3, 4], [6, 15], [17, 18]] },
+        { "row": "B", "type": "standard", "blocks": [[3, 4], [6, 15], [17, 18]] },
+        { "row": "C", "type": "standard", "blocks": [[3, 4], [6, 15], [17, 18]] },
+        { "row": "D", "type": "standard", "blocks": [[3, 4], [6, 15], [17, 18]] },
+        { "row": "E", "type": "standard", "blocks": [[3, 4], [6, 15], [17, 18]] },
+        { "row": "F", "type": "standard", "blocks": [[3, 4], [6, 15], [17, 18]] },
+        { "row": "G", "type": "standard", "blocks": [[1, 4], [6, 15], [17, 20]] },
+        { "row": "H", "type": "standard", "blocks": [[1, 4], [6, 15], [17, 20]] },
+        { "row": "I", "type": "standard", "blocks": [[1, 22]] },
+        { "row": "J", "type": "recliner", "blocks": [[1, 4], [6, 8], [10, 11], [13, 15], [17, 20]] },
+        { "row": "K", "type": "recliner", "blocks": [[1, 4], [6, 8], [10, 11], [13, 15], [17, 20]] }
+      ]
+    }
+  },
+  "cinemas": [
+    {
+      "slug": "acacia",
+      "name": "Acacia Mall",
+      "area": "Level 2, Acacia Mall, Kisementi",
+      "halls": [
+        { "number": 1, "atmos": true, "layout": "standard" },
+        { "number": 2, "atmos": false, "layout": "standard" },
+        { "number": 3, "atmos": false, "layout": "standard" },
+        { "number": 4, "atmos": false, "layout": "standard" }
+      ]
+    },
+    {
+      "slug": "arena",
+      "name": "Arena Mall",
+      "area": "Arena Mall, Nsambya",
+      "halls": [
+        { "number": 1, "atmos": false, "layout": "standard" },
+        { "number": 2, "atmos": false, "layout": "standard" },
+        { "number": 3, "atmos": false, "layout": "standard" }
+      ]
+    },
+    {
+      "slug": "metroplex",
+      "name": "Metroplex Naalya",
+      "area": "Metroplex Shopping Centre, Naalya",
+      "halls": [
+        { "number": 1, "atmos": false, "layout": "standard" },
+        { "number": 2, "atmos": false, "layout": "standard" },
+        { "number": 3, "atmos": false, "layout": "standard" }
+      ]
+    }
+  ],
+  "prices": {
+    "sunday": 22000,
+    "monday": 12000,
+    "tuesday": 17000,
+    "wednesday": 17000,
+    "thursday": 14000,
+    "friday": 22000,
+    "saturday": 22000
+  },
+  "settings": {
+    "recliner_extra": 10000,
+    "atmos_extra": 2000,
+    "glasses_price": 8000,
+    "hold_minutes": 8,
+    "max_seats": 8,
+    "advance_days": 14
+  },
+  "snacks": [
+    { "name": "Popcorn, salted", "description": "Medium tub", "price": 8000 },
+    { "name": "Popcorn, caramel", "description": "Medium tub", "price": 10000 },
+    { "name": "Soda", "description": "500 ml bottle", "price": 4000 },
+    { "name": "Water", "description": "500 ml bottle", "price": 2000 },
+    { "name": "Sharing combo", "description": "Large popcorn and two sodas", "price": 18000 }
+  ]
+}
