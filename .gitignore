@@ -1,0 +1,25 @@
+# Local secrets
+/config/secrets.php
+
+# Dependencies
+/vendor/
+/composer.phar
+
+# Runtime files
+/storage/cache/*
+!/storage/cache/.gitkeep
+/storage/logs/*
+!/storage/logs/.gitkeep
+*.log
+
+# Reference material, not part of the project
+/reference/
+
+# OS and editor clutter
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+Screenshot*
+Screen Shot*

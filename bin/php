@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Runs MAMP's newest PHP 8 with whatever arguments you pass, e.g. bin/php bin/setup-db.php
+# Set PHP=/path/to/php to use a different binary.
+set -euo pipefail
+
+if [ -z "${PHP:-}" ]; then
+  latest=$(ls -d /Applications/MAMP/bin/php/php8.* 2>/dev/null | sort -V | tail -1 || true)
+  if [ -z "$latest" ] || [ ! -x "$latest/bin/php" ]; then
+    echo "Couldn't find MAMP's PHP 8 in /Applications/MAMP/bin/php. Set PHP=/path/to/php and try again." >&2
+    exit 1
+  fi
+  PHP="$latest/bin/php"
+fi
+
+exec "$PHP" "$@"

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Serves the site at http://localhost:8090 with PHP's built-in server and MAMP's PHP.
+# MAMP's Apache keeps running its own project; this one runs alongside it.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+# A few workers so payment polling doesn't block other requests.
+export PHP_CLI_SERVER_WORKERS="${PHP_CLI_SERVER_WORKERS:-4}"
+
+echo "Cinemax on http://localhost:8090 (Ctrl+C to stop)"
+exec bin/php -S 127.0.0.1:8090 -t public public/router.php
