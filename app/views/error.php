@@ -11,21 +11,13 @@ $headings = [
 ];
 $heading = $headings[$status] ?? 'Something went wrong';
 $message = $message !== '' ? $message : 'Try again in a moment.';
+
+page_open(['title' => $heading, 'noindex' => true]);
 ?>
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?= e($heading) ?> | Cinemax</title>
-<link rel="stylesheet" href="/assets/css/site.css">
-</head>
-<body>
-<main class="plain">
-  <a class="wm" href="/" aria-label="Century Cinemax home"><b>CENTURY</b><span>CINEMAX</span></a>
+<section class="plain">
   <h1><?= e($heading) ?></h1>
   <p><?= e($message) ?></p>
   <a class="btn btn-sm btn-y" href="/">Back to home</a>
-</main>
-</body>
-</html>
+</section>
+<?php
+page_close();

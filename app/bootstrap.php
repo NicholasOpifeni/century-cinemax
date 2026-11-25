@@ -24,6 +24,7 @@ require ROOT . '/vendor/autoload.php';
 require __DIR__ . '/helpers.php';
 require __DIR__ . '/db.php';
 require __DIR__ . '/csrf.php';
+require __DIR__ . '/ui.php';
 
 if (PHP_SAPI !== 'cli') {
     start_session();
