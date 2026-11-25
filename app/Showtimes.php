@@ -18,6 +18,34 @@ final class Showtimes
     private const LONG_FILM = 170;
 
     /**
+     * Shows still to start at a cinema on a day, grouped by film id.
+     *
+     * @return array<int, list<array{id: int, starts_at: DateTimeImmutable, format: string, language: string, hall: int}>>
+     */
+    public static function forCinemaOn(int $cinemaId, DateTimeImmutable $day): array
+    {
+        $rows = db_run(
+            'SELECT s.id, s.film_id, s.starts_at, s.format, s.language, h.number AS hall
+             FROM showtimes s JOIN halls h ON h.id = s.hall_id
+             WHERE h.cinema_id = ? AND s.starts_at >= ? AND s.starts_at < ? AND s.starts_at > NOW()
+             ORDER BY s.starts_at, h.number',
+            [$cinemaId, $day->format('Y-m-d 00:00:00'), $day->modify('+1 day')->format('Y-m-d 00:00:00')],
+        )->fetchAll();
+
+        $byFilm = [];
+        foreach ($rows as $row) {
+            $byFilm[(int) $row['film_id']][] = [
+                'id' => (int) $row['id'],
+                'starts_at' => new DateTimeImmutable($row['starts_at']),
+                'format' => $row['format'],
+                'language' => $row['language'],
+                'hall' => (int) $row['hall'],
+            ];
+        }
+        return $byFilm;
+    }
+
+    /**
      * Plans one cinema's day and saves it. Films take turns choosing a slot, so every film gets
      * a show before any film gets a second one, and a hall never runs two shows within
      * the film's runtime plus cleaning. Dolby Atmos only goes in Atmos halls.
