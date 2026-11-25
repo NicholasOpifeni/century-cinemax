@@ -121,8 +121,32 @@ function start_session(): void
     session_start();
 }
 
+/** One nonce per request, for the page's own <style> and <script> blocks. */
+function csp_nonce(): string
+{
+    static $nonce = null;
+    return $nonce ??= base64_encode(random_bytes(18));
+}
+
 function send_base_headers(): void
 {
+    $nonce = csp_nonce();
+    $policy = [
+        "default-src 'self'",
+        // www.youtube.com serves the IFrame API used by the trailer previews.
+        "script-src 'self' 'nonce-$nonce' https://www.youtube.com",
+        "style-src 'self' 'nonce-$nonce'",
+        'img-src \'self\' https://image.tmdb.org https://i.ytimg.com',
+        "font-src 'self'",
+        "connect-src 'self'",
+        'frame-src https://www.youtube-nocookie.com',
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "frame-ancestors 'none'",
+    ];
+
+    header('Content-Security-Policy: ' . implode('; ', $policy));
     header('X-Content-Type-Options: nosniff');
     header('Referrer-Policy: strict-origin-when-cross-origin');
     header('X-Frame-Options: DENY');
