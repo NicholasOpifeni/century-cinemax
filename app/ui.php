@@ -31,6 +31,67 @@ function icon(string $name): string
     return $icons[$name] ?? '';
 }
 
+/** "Fri 27 Nov" */
+function d_short(DateTimeInterface $date): string
+{
+    return $date->format('D j M');
+}
+
+/** "Friday, 27 NOV", as on the film page. */
+function d_long(DateTimeInterface $date): string
+{
+    return $date->format('l, j ') . strtoupper($date->format('M'));
+}
+
+/** "2 hours 38 minutes" */
+function run_long(?int $minutes): string
+{
+    if (!$minutes) {
+        return 'Runtime to be confirmed';
+    }
+    $h = intdiv($minutes, 60);
+    $m = $minutes % 60;
+    return $h . ' hour' . ($h > 1 ? 's' : '') . ($m ? " $m minutes" : '');
+}
+
+/** "2HR 38MIN" */
+function run_caps(?int $minutes): string
+{
+    return $minutes ? sprintf('%dHR %02dMIN', intdiv($minutes, 60), $minutes % 60) : 'RUNTIME TBC';
+}
+
+/** "2h 38m" */
+function run_short(?int $minutes): string
+{
+    return $minutes ? sprintf('%dh %02dm', intdiv($minutes, 60), $minutes % 60) : 'TBC';
+}
+
+/** Shortens text at a word break, with an ellipsis. */
+function clip(string $text, int $length): string
+{
+    if (mb_strlen($text) <= $length) {
+        return $text;
+    }
+    $cut = mb_substr($text, 0, $length);
+    $space = mb_strrpos($cut, ' ');
+    return rtrim(mb_substr($cut, 0, $space ?: $length), ',.;: ') . '…';
+}
+
+function format_label(string $format): string
+{
+    return $format === 'Dolby Atmos' ? 'Atmos' : $format;
+}
+
+/** TMDB's audience score once enough people have rated the film, otherwise its age rating. */
+function rating_badge(array $film, bool $withCount = false): string
+{
+    if ($film['vote_count'] >= 20 && $film['vote_average'] !== null) {
+        $html = '<span class="imdb" title="TMDB audience rating">TMDB</span><span>' . e(number_format($film['vote_average'], 1)) . '</span>';
+        return $withCount ? $html . '<span class="dim">(' . e(number_format($film['vote_count'])) . ')</span>' : $html;
+    }
+    return '<span class="imdb" title="Age rating">' . e($film['certificate']) . '</span>';
+}
+
 /** Asset URL with the file's modified time, so browsers pick up changes. */
 function asset(string $path): string
 {

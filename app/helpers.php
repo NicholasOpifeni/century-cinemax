@@ -27,6 +27,27 @@ function ugx(int $amount): string
     return 'UGX ' . number_format($amount);
 }
 
+/**
+ * Turns what people type into 2567XXXXXXXX, or null if it isn't a Ugandan mobile number.
+ * Accepts 772123456, 0772 123 456, +256 772 123 456 and 256772123456.
+ */
+function normalise_phone(string $input): ?string
+{
+    $digits = preg_replace('/\D+/', '', $input) ?? '';
+    $digits = match (true) {
+        strlen($digits) === 12 && str_starts_with($digits, '256') => substr($digits, 3),
+        strlen($digits) === 10 && str_starts_with($digits, '0') => substr($digits, 1),
+        default => $digits,
+    };
+    return preg_match('/^7\d{8}$/', $digits) === 1 ? '256' . $digits : null;
+}
+
+/** 256772123456 becomes +256 772 123 456. */
+function format_phone(string $phone): string
+{
+    return preg_match('/^256(\d{3})(\d{3})(\d{3})$/', $phone, $m) === 1 ? "+256 $m[1] $m[2] $m[3]" : $phone;
+}
+
 /** Full URL for links that leave the site, like QR codes and calendar files. */
 function app_url(string $path = '/'): string
 {
