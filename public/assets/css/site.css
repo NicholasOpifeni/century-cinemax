@@ -1,0 +1,55 @@
+/* Geist by Vercel, SIL Open Font License 1.1 (see ../fonts/LICENSE.txt) */
+@font-face{font-family:'Geist';font-style:normal;font-weight:100 900;font-display:swap;src:url(../fonts/geist-latin-wght-normal.woff2) format('woff2')}
+
+:root{
+  --bg:#07070B;
+  --navy:#05051A;
+  --navy-2:#0C0C28;
+  --line:rgba(255,255,255,.12);
+  --line-2:rgba(255,255,255,.3);
+  --text:#FFFFFF;
+  --soft:#D7D7E0;
+  --muted:#8D8DA8;
+  --faint:#5A5A74;
+  --yellow:#F5C518;
+  --blue:#0A5CFF;
+  --blue-h:#2A72FF;
+  --seat:#6C6C71;
+  --recl:#24244B;
+  --pad:clamp(16px,6vw,112px);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:"ss01"}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+img{display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.wm{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;flex:none;font-weight:700;font-size:23px;letter-spacing:.01em;line-height:1;text-decoration:none}
+.wm b{background:var(--yellow);color:#0a0a0a;padding:6px 9px 5px;border-radius:3px;font-weight:700}
+.wm span{color:var(--yellow)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:14px;height:56px;padding:0 36px;border-radius:7px;border:1.5px solid transparent;font-size:18px;font-weight:450;white-space:nowrap;text-decoration:none}
+.btn-y{background:var(--yellow);color:#0a0a0a}
+.btn-y:hover{background:#FFD43B}
+.btn-o{background:rgba(0,0,0,.15);border-color:rgba(255,255,255,.7);color:#fff}
+.btn-o:hover{background:#fff;color:#000}
+.btn-sm{height:46px;padding:0 22px;font-size:16px;gap:10px}
+
+/* Plain message pages: setup check, errors */
+.plain{max-width:720px;margin:0 auto;padding:72px var(--pad) 96px}
+.plain h1{margin:48px 0 10px;font-size:clamp(32px,6vw,46px);font-weight:600;letter-spacing:-.035em;line-height:1.08}
+.plain p{margin:0 0 28px;color:var(--muted);font-size:17px}
+.checks{list-style:none;margin:0 0 32px;padding:0;display:grid;gap:10px}
+.checks li{display:flex;gap:12px;align-items:baseline;padding:14px 16px;border-radius:10px;background:#101017;border:1px solid var(--line)}
+.checks li::before{content:"\2713";color:#6BD08A;font-weight:700}
+.checks li.fail::before{content:"\2715";color:#EF4655}
+
+@media (max-width:720px){
+  .wm{font-size:15px;gap:6px}
+  .wm b{padding:4px 5px 3px}
+  .plain{padding-top:40px}
+}
