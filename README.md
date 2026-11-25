@@ -10,10 +10,15 @@ You need MAMP (for MySQL on port 8889 and its PHP) and Composer.
 
 ```sh
 composer install
-cp config/secrets.example.php config/secrets.php   # then fill it in
+cp config/secrets.example.php config/secrets.php   # then fill it in, including your TMDB token
 bin/php bin/setup-db.php                           # creates the cinemax database
+bin/php bin/import-films.php                       # films, posters, trailers and colours from TMDB
+bin/php database/seed.php                          # cinemas, halls, seats, prices, snacks, admin
+bin/php bin/generate-showtimes.php                 # two weeks of shows from today
 bin/serve                                          # http://localhost:8090
 ```
+
+Showtimes only run two weeks ahead, so run `bin/generate-showtimes.php` again now and then. It skips days that already have shows.
 
 `bin/php` runs MAMP's newest PHP 8, so you don't need it on your PATH.
 
