@@ -427,6 +427,71 @@ a{color:inherit}
 @media (max-width:1000px){.pay{grid-template-columns:minmax(0,1fr)}.sum{position:static;order:-1}}
 @media (max-width:720px){.snack{gap:12px}.s-head{flex-wrap:wrap}.s-head .hold{margin-left:62px}}
 
+/* ---------- ticket ---------- */
+.tk-page{padding-bottom:1px}
+.done{padding:52px var(--pad) 30px;text-align:center}
+.done h1{margin:0;font-size:46px;font-weight:600;letter-spacing:-.035em}
+.done p{margin:10px auto 0;max-width:54ch;color:var(--muted);font-size:17px}
+.tk-wrap{max-width:1080px;margin:0 auto;padding:0 16px;filter:drop-shadow(0 30px 60px rgba(0,0,0,.55))}
+/* The two bites out of the edges, where the stub tears off, are a mask. */
+.ticket{--stub:290px;--r:20px;display:grid;grid-template-columns:200px minmax(0,1fr) var(--stub);border-radius:16px;overflow:hidden;
+  -webkit-mask:radial-gradient(circle var(--r) at calc(100% - var(--stub)) 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle var(--r) at calc(100% - var(--stub)) 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+  mask:radial-gradient(circle var(--r) at calc(100% - var(--stub)) 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle var(--r) at calc(100% - var(--stub)) 100%,#0000 98%,#000) bottom/100% 51% no-repeat}
+.ticket > .pic{height:100%}
+.ticket > .pic .pt{font-size:12px}
+.tk-panel{background:var(--tone);padding:34px 36px}
+.tk-panel .wm{font-size:15px;gap:7px;margin-bottom:20px}
+.tk-panel .wm b{padding:4px 6px 3px}
+.tk-panel h2{margin:0;font-size:32px;font-weight:800;text-transform:uppercase;line-height:1.02;letter-spacing:-.01em}
+.tk-panel .icons{margin-top:24px;gap:16px 34px}
+.tk-panel .credits{margin-top:22px}
+.tk-stub{position:relative;background:#F4F4F6;color:#0b0b12;display:grid;align-content:center;justify-items:center;text-align:center;gap:6px;padding:26px 22px}
+.tk-stub::before{content:"";position:absolute;left:0;top:28px;bottom:28px;border-left:2.5px dashed #b6b6c2}
+.qr-box{width:160px;height:160px}
+.qr-box svg{display:block;width:100%;height:100%}
+.tk-stub small{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#6a6a78;font-weight:600}
+.tk-stub small.gap{margin-top:10px}
+.tk-stub .n{font-size:21px;font-weight:700;letter-spacing:.04em;margin-bottom:8px}
+.tk-stub .s{font-size:28px;font-weight:800;color:var(--blue);letter-spacing:.01em;line-height:1.1}
+.ticket.void{filter:grayscale(1);opacity:.7}
+.void-mark{padding:10px 16px;border:3px solid #b42318;border-radius:8px;color:#b42318;font-size:22px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;transform:rotate(-8deg)}
+.tk-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:40px}
+.tips{max-width:1080px;margin:52px auto 0;padding:30px 16px 90px;border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:repeat(3,1fr);gap:32px;color:var(--muted);font-size:15px}
+.tips b{display:block;color:#fff;font-weight:550;margin-bottom:4px}
+html:not(.js) .js-only{display:none}
+@media (max-width:900px){
+  .ticket{--stub:360px;grid-template-columns:1fr;
+    -webkit-mask:radial-gradient(circle var(--r) at 0 calc(100% - var(--stub)),#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle var(--r) at 100% calc(100% - var(--stub)),#0000 98%,#000) right/51% 100% no-repeat;
+    mask:radial-gradient(circle var(--r) at 0 calc(100% - var(--stub)),#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle var(--r) at 100% calc(100% - var(--stub)),#0000 98%,#000) right/51% 100% no-repeat}
+  .ticket > .pic{display:none}
+  .tk-panel{padding:26px 22px}
+  .tk-panel h2{font-size:26px}
+  .tk-stub{height:var(--stub)}
+  .tk-stub::before{left:28px;right:28px;top:0;bottom:auto;border-left:0;border-top:2.5px dashed #b6b6c2}
+  .done h1{font-size:34px}
+  .tips{grid-template-columns:1fr;gap:18px}
+}
+/* Download ticket prints just the ticket, in colour, on one page. */
+@media print{
+  @page{margin:12mm}
+  html,body{background:#fff}
+  .top,.foot,.done,.tk-actions,.tips,.skip,#layer{display:none!important}
+  .navy{min-height:0;background:#fff}
+  .tk-wrap{max-width:none;padding:0;filter:none}
+  .ticket{break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* ---------- find my booking ---------- */
+.find form{display:grid;gap:6px;margin:0}
+.field{display:grid;gap:8px;margin-bottom:12px}
+.field span,.field-label{color:var(--soft);font-size:15px}
+.field input{height:56px;padding:0 16px;border:1px solid transparent;border-radius:9px;background:rgba(255,255,255,.06);font-size:18px;letter-spacing:.06em;text-transform:uppercase;outline:none}
+.field input::placeholder{letter-spacing:.03em}
+.field input:focus{border-color:var(--blue)}
+.find .phone{margin-top:2px}
+.find .err{margin:12px 0 0;color:#FF8A8A;font-size:15px}
+.find .btn{justify-self:start;margin-top:22px}
+
 /* ---------- trailer preview: home hero and the movie page poster ---------- */
 /* The trailer is cropped to fill its box, and scaled up a little to keep YouTube's edges out of sight. */
 /* No z-index, so on the hero the darkening gradient still sits on top of the video. */

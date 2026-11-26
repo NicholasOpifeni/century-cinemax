@@ -105,6 +105,11 @@
   // Flash messages from the server stay a little longer than ordinary toasts.
   if (toasts) toasts.querySelectorAll('.toast').forEach((el) => setTimeout(() => el.remove(), 5000));
 
+  // Download ticket opens the print dialog; the print stylesheet keeps just the ticket.
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-print]')) window.print();
+  });
+
   // Buttons that only explain something, like the style guide's toast demo.
   document.addEventListener('click', (e) => {
     const el = e.target.closest('[data-toast]');
