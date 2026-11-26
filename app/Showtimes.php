@@ -51,6 +51,34 @@ final class Showtimes
     }
 
     /**
+     * One show with its hall and cinema, or null.
+     *
+     * @return array{id: int, film_id: int, film_slug: string, starts_at: DateTimeImmutable, format: string, language: string,
+     *   hall: int, hall_id: int, cinema_id: int, cinema_slug: string, cinema_name: string}|null
+     */
+    public static function find(int $id): ?array
+    {
+        $row = db_run(
+            'SELECT s.id, s.film_id, f.slug AS film_slug, s.starts_at, s.format, s.language,
+                    h.number AS hall, h.id AS hall_id, c.id AS cinema_id, c.slug AS cinema_slug, c.name AS cinema_name
+             FROM showtimes s
+             JOIN films f ON f.id = s.film_id
+             JOIN halls h ON h.id = s.hall_id
+             JOIN cinemas c ON c.id = h.cinema_id
+             WHERE s.id = ?',
+            [$id],
+        )->fetch();
+        if (!$row) {
+            return null;
+        }
+        foreach (['id', 'film_id', 'hall', 'hall_id', 'cinema_id'] as $key) {
+            $row[$key] = (int) $row[$key];
+        }
+        $row['starts_at'] = new DateTimeImmutable($row['starts_at']);
+        return $row;
+    }
+
+    /**
      * One film's shows still to start at a cinema on a day, every format and language.
      *
      * @return list<array{id: int, starts_at: DateTimeImmutable, format: string, language: string, hall: int}>

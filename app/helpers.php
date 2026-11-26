@@ -27,6 +27,14 @@ function ugx(int $amount): string
     return 'UGX ' . number_format($amount);
 }
 
+/** "F7", "F7 and F8", "F7, F8 and F9" */
+function human_list(array $items): string
+{
+    $items = array_values($items);
+    $last = array_pop($items);
+    return $items ? implode(', ', $items) . ' and ' . $last : (string) $last;
+}
+
 /**
  * Turns what people type into 2567XXXXXXXX, or null if it isn't a Ugandan mobile number.
  * Accepts 772123456, 0772 123 456, +256 772 123 456 and 256772123456.
