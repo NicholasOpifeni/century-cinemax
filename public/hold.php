@@ -74,4 +74,6 @@ if (!$result['ok']) {
     $reply(false, $message, 409, $seatsPage, ['taken' => $result['taken']]);
 }
 
+// Checkout sends them back to this show's seat map if their time runs out.
+$_SESSION['checkout_show'] = $show['id'];
 $reply(true, '', 200, '/checkout.php', ['expires_at' => $result['expires_at']->format(DATE_ATOM)]);
