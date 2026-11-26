@@ -46,7 +46,7 @@ $showTag = static function (array $film, array $show): string {
 page_open([
     'header' => 'over',
     'active' => 'now',
-    'scripts' => ['home.js'],
+    'scripts' => ['preview.js', 'home.js'],
     'description' => 'What’s on at Century Cinemax in Kampala. Pick a film and a time, choose your seats and pay with MTN MoMo, Airtel Money or card.',
 ]);
 ?>
@@ -59,10 +59,13 @@ page_open([
       <?php endif; ?>
     </div>
   <?php endforeach; ?>
+  <?php if (array_filter(array_column($featured, 'trailer_key'))): ?>
+    <?= preview_layer($featured[0]['trailer_key']) ?>
+  <?php endif; ?>
 
   <div class="hero-in">
     <?php foreach ($featured as $i => $film): ?>
-      <div class="hero-slide"<?= $i === 0 ? '' : ' hidden' ?>>
+      <div class="hero-slide" data-preview-key="<?= e($film['trailer_key'] ?? '') ?>"<?= $i === 0 ? '' : ' hidden' ?>>
         <h2 class="hero-title"><?= e($film['title']) ?></h2>
         <div class="meta">
           <?= rating_badge($film, true) ?>

@@ -26,7 +26,8 @@
       const rail = thumbs[next].parentElement;
       rail.scrollTo({ left: thumbs[next].offsetLeft - rail.clientWidth / 2 + thumbs[next].clientWidth / 2, behavior: 'smooth' });
       current = next;
-      hero.dispatchEvent(new CustomEvent('cmx:slide', { detail: { index: next } }));
+      // preview.js listens for this and switches to the new film's trailer.
+      hero.dispatchEvent(new CustomEvent('cmx:slide', { detail: { index: next, preview: slides[next].dataset.previewKey || '' } }));
     };
 
     hero.querySelectorAll('[data-step]').forEach((button) => {
