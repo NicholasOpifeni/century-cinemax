@@ -34,12 +34,13 @@ final class SeatMap
 
     /**
      * A show's hall, row by row, with each seat marked taken if it's booked or held by someone.
+     * Seats held under $holdKey are this visitor's own, so they're marked mine instead.
      * Rows come in the layout's order, front to back, and seats are keyed by grid column.
      *
      * @return array{hall: int, columns: int, total: int, free: int,
-     *   rows: list<array{row: string, type: string, seats: array<int, array{id: int, label: string, number: int, type: string, taken: bool}>}>}|null
+     *   rows: list<array{row: string, type: string, seats: array<int, array{id: int, label: string, number: int, type: string, taken: bool, mine: bool}>}>}|null
      */
-    public static function forShowtime(int $showtimeId): ?array
+    public static function forShowtime(int $showtimeId, ?string $holdKey = null): ?array
     {
         $show = db_run(
             'SELECT s.hall_id, h.number, h.layout_json FROM showtimes s JOIN halls h ON h.id = s.hall_id WHERE s.id = ?',
@@ -50,11 +51,7 @@ final class SeatMap
         }
         $layout = json_decode($show['layout_json'], true);
 
-        $taken = array_flip(db_run(
-            'SELECT seat_id FROM booking_seats WHERE showtime_id = ?
-             UNION SELECT seat_id FROM seat_holds WHERE showtime_id = ? AND expires_at > NOW()',
-            [$showtimeId, $showtimeId],
-        )->fetchAll(\PDO::FETCH_COLUMN));
+        [$taken, $mine] = self::takenAndMine($showtimeId, $holdKey);
 
         $byRow = [];
         foreach (db_run('SELECT id, row_label, seat_number, grid_col, label, type FROM seats WHERE hall_id = ?', [$show['hall_id']]) as $seat) {
@@ -64,6 +61,7 @@ final class SeatMap
                 'number' => (int) $seat['seat_number'],
                 'type' => $seat['type'],
                 'taken' => isset($taken[$seat['id']]),
+                'mine' => isset($mine[$seat['id']]),
             ];
         }
 
@@ -79,5 +77,31 @@ final class SeatMap
         }
 
         return ['hall' => (int) $show['number'], 'columns' => (int) $layout['columns'], 'total' => $total, 'free' => $free, 'rows' => $rows];
+    }
+
+    /**
+     * Seat ids that are booked or held by others, and those held by this visitor, as sets.
+     *
+     * @return array{0: array<int, int>, 1: array<int, int>}
+     */
+    public static function takenAndMine(int $showtimeId, ?string $holdKey = null): array
+    {
+        $rows = db_run(
+            'SELECT seat_id, 0 AS mine FROM booking_seats WHERE showtime_id = ?
+             UNION ALL
+             SELECT seat_id, hold_key = ? AS mine FROM seat_holds WHERE showtime_id = ? AND expires_at > NOW()',
+            [$showtimeId, $holdKey ?? '', $showtimeId],
+        )->fetchAll();
+
+        $taken = [];
+        $mine = [];
+        foreach ($rows as $row) {
+            if ((int) $row['mine'] === 1) {
+                $mine[(int) $row['seat_id']] = (int) $row['seat_id'];
+            } else {
+                $taken[(int) $row['seat_id']] = (int) $row['seat_id'];
+            }
+        }
+        return [$taken, $mine];
     }
 }
