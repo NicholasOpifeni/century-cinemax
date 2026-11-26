@@ -35,6 +35,12 @@ final class Holds
     public static function clearExpired(): void
     {
         db_run('DELETE FROM seat_holds WHERE expires_at <= NOW()');
+        // A payment nobody finished: once its seats have gone, the booking can't be paid any more.
+        db_run(
+            "UPDATE bookings b SET b.status = 'expired'
+             WHERE b.status = 'pending' AND b.created_at < NOW() - INTERVAL 15 MINUTE
+               AND NOT EXISTS (SELECT 1 FROM seat_holds h WHERE h.booking_id = b.id)"
+        );
     }
 
     /**
