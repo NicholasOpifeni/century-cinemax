@@ -372,6 +372,61 @@ a{color:inherit}
   .booking .toasts{bottom:170px}
 }
 
+/* ---------- checkout (same panel as seats) ---------- */
+.s-head .hold.low b{color:#FFB4B4}
+.pay-form{margin:0}
+.pay{display:grid;grid-template-columns:minmax(0,760px) 420px;justify-content:space-between;gap:56px;padding:44px var(--pad) 0}
+.blk + .blk{margin-top:52px}
+.blk h2{margin:0 0 6px;font-size:26px;font-weight:550;letter-spacing:-.02em}
+.blk > p{margin:0 0 20px;color:var(--muted)}
+.snack{display:grid;grid-template-columns:1fr auto auto;gap:24px;align-items:center;padding:16px 0;border-top:1px solid rgba(255,255,255,.08)}
+.snack:last-of-type{border-bottom:1px solid rgba(255,255,255,.08)}
+.snack b{font-weight:550}
+.snack small{display:block;color:var(--muted);font-size:14px}
+.snack .amt{color:var(--soft);font-variant-numeric:tabular-nums}
+.step{display:flex;align-items:center;gap:4px;padding:3px;border-radius:8px;background:rgba(255,255,255,.06)}
+/* Without JavaScript the number box is typed into; with it, the minus and plus buttons appear. */
+.step button{display:none;width:34px;height:34px;border:0;border-radius:6px;background:none;place-items:center;padding:0}
+.js .step button{display:grid}
+.step button:hover:not(:disabled){background:rgba(255,255,255,.12)}
+.step button:disabled{opacity:.3;cursor:default}
+.step input{width:44px;height:34px;border:0;border-radius:6px;background:none;text-align:center;font-weight:600;font-variant-numeric:tabular-nums;-moz-appearance:textfield;appearance:textfield}
+.js .step input{width:26px;padding:0}
+.step input::-webkit-inner-spin-button,.step input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.check{display:flex;gap:12px;align-items:flex-start;margin-top:20px;font-size:15px;cursor:pointer}
+.check input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--blue)}
+.check small{display:block;color:var(--muted);font-size:14px}
+.methods{display:flex;flex-wrap:wrap;gap:8px}
+.methods .tp{position:relative;height:44px;padding:0 18px;background:rgba(255,255,255,.06);cursor:pointer}
+.methods .tp input{position:absolute;inset:0;margin:0;opacity:0;cursor:inherit}
+.methods .tp:has(input:checked){background:var(--blue);color:#fff}
+.methods .tp:has(input:focus-visible){outline:2px solid var(--yellow);outline-offset:3px}
+.hint{margin:12px 0 0;color:var(--muted);font-size:14.5px}
+.sum{align-self:start;position:sticky;top:24px;border-radius:14px;overflow:hidden;background:var(--navy-2);border:1px solid rgba(255,255,255,.07)}
+.sum-film{display:grid;grid-template-columns:86px 1fr;gap:18px;padding:20px;background:var(--tone)}
+.sum-film .pic{aspect-ratio:2/3;border-radius:6px}
+.sum-film .pt{font-size:10px}.sum-film .pt::before{display:none}
+.sum-film h3{margin:0;font-size:19px;font-weight:800;text-transform:uppercase;line-height:1.1}
+.sum-film p{margin:8px 0 0;color:var(--soft);font-size:14px;line-height:1.6}
+.sum-rows{padding:14px 20px 20px}
+.srow{display:flex;justify-content:space-between;gap:16px;padding:8px 0;font-size:15px}
+.srow > span:first-child{color:var(--muted)}
+.srow > span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.sum .chips{margin:0;justify-content:flex-end}
+.demo{margin:14px 0 0;color:var(--faint);font-size:13px}
+/* The no-JavaScript payment pages: the sheet on its own. */
+.waiting{display:grid;place-items:center;padding:60px 16px}
+.waiting .sheet h1{margin:18px 0 8px;font-size:26px;font-weight:600;letter-spacing:-.02em}
+.waiting .sheet form{margin:0}
+.card-demo{text-align:left}
+.card-demo h1{margin-top:0}
+.card-sum{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;margin:22px 0 4px;padding:16px 18px;border-radius:10px;background:rgba(255,255,255,.05);font-size:15px}
+.card-sum dt{color:var(--muted)}
+.card-sum dd{margin:0;font-variant-numeric:tabular-nums}
+.card-demo .sheet-btns{justify-content:flex-start}
+@media (max-width:1000px){.pay{grid-template-columns:minmax(0,1fr)}.sum{position:static;order:-1}}
+@media (max-width:720px){.snack{gap:12px}.s-head{flex-wrap:wrap}.s-head .hold{margin-left:62px}}
+
 /* ---------- trailer preview: home hero and the movie page poster ---------- */
 /* The trailer is cropped to fill its box, and scaled up a little to keep YouTube's edges out of sight. */
 /* No z-index, so on the hero the darkening gradient still sits on top of the video. */
