@@ -116,9 +116,11 @@
     if (img instanceof HTMLImageElement && img.closest('.pic')) img.remove();
   }, true);
 
-  // The cinema picker saves as soon as it changes.
-  document.querySelectorAll('form[data-autosubmit] select').forEach((select) => {
-    select.addEventListener('change', () => select.form.requestSubmit());
+  // Pickers save or update as soon as they change. Listening on the document covers forms
+  // that are swapped in later, like the film page's booking panel.
+  document.addEventListener('change', (e) => {
+    const select = e.target.closest('form[data-autosubmit] select');
+    if (select) select.form.requestSubmit();
   });
 
   // Search: the icon opens the field, then searches once something is typed.
