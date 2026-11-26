@@ -107,12 +107,43 @@ function wordmark(string $tag = 'a'): string
         : '<span class="wm" aria-label="Century Cinemax">' . $inner . '</span>';
 }
 
-/** Poster with the film's title behind it, which shows when there's no image or it fails to load. */
-function pic(array $film, string $size = 'w342', string $class = '', bool $lazy = true): string
+/**
+ * Poster with the film's title behind it, which shows when there's no image or it fails to load.
+ * $extra is markup to place over the image, already escaped.
+ */
+function pic(array $film, string $size = 'w342', string $class = '', bool $lazy = true, string $extra = ''): string
 {
     $url = Tmdb::imageUrl($film['poster_path'] ?? null, $size);
     $img = $url ? '<img src="' . e($url) . '" alt=""' . ($lazy ? ' loading="lazy"' : '') . ' decoding="async">' : '';
-    return '<div class="pic ' . e($class) . '"><span class="pt">' . e($film['title']) . '</span>' . $img . '</div>';
+    return '<div class="pic ' . e($class) . '"><span class="pt">' . e($film['title']) . '</span>' . $img . $extra . '</div>';
+}
+
+/**
+ * Where the muted trailer preview plays, and its pause and sound buttons. preview.js fills it
+ * on laptop screens; elsewhere it stays empty and the still shows.
+ */
+function preview_layer(?string $trailerKey): string
+{
+    return '<div class="preview" data-preview data-key="' . e($trailerKey ?? '') . '" aria-hidden="true"></div>'
+        . '<div class="pv-ctl" hidden>'
+        . '<button class="pv-btn" type="button" data-pv="pause" aria-pressed="false" aria-label="Pause preview">' . icon('pause') . icon('play') . '</button>'
+        . '<button class="pv-btn" type="button" data-pv="sound" aria-pressed="false" aria-label="Preview sound">' . icon('soundOff') . icon('soundOn') . '</button>'
+        . '</div>';
+}
+
+/** The small hall plan on the film page: one dot per seat, dimmed when taken. */
+function mini_map(array $map): string
+{
+    $html = '<div class="mini" aria-hidden="true">';
+    foreach ($map['rows'] as $row) {
+        $html .= '<div class="r">';
+        for ($col = 1; $col <= $map['columns']; $col++) {
+            $seat = $row['seats'][$col] ?? null;
+            $html .= $seat === null ? '<i class="g"></i>' : ($seat['taken'] ? '<i class="x"></i>' : '<i></i>');
+        }
+        $html .= '</div>';
+    }
+    return $html . '</div>';
 }
 
 /** Backdrop still. It has no title stand-in, just the dark panel. */
