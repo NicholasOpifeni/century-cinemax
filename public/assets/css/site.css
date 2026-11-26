@@ -299,6 +299,79 @@ a{color:inherit}
 @media (max-width:1000px){.card{grid-template-columns:1fr}.card > .pic{aspect-ratio:4/3;min-height:0}.card > .pic > img{object-position:center 20%}.panel{padding:36px 32px}}
 @media (max-width:720px){.detail{padding:24px 12px 50px}.panel{padding:26px 20px}.panel h1{font-size:34px}.icons{gap:12px 22px;font-size:12.5px}.bk{grid-template-columns:72px 1fr;gap:14px 10px}.mini{padding:10px 12px}.halls{gap:14px}.go-row{justify-content:space-between}}
 
+/* ---------- seats (Select your Seats layout) ---------- */
+.navy{background:var(--navy);min-height:calc(100vh - 104px)}
+.s-head{display:flex;align-items:center;gap:30px;padding:44px var(--pad) 0}
+.back{flex:none;width:62px;height:62px;border-radius:50%;background:#3E3E50;border:0;display:grid;place-items:center;padding:0;color:#fff}
+.back:hover{background:#55556a}
+.s-head h1{margin:0;font-size:42px;font-weight:500;letter-spacing:-.025em;line-height:1.1}
+.s-head p{margin:6px 0 0;color:var(--muted);font-size:16px}
+.s-head .hold{margin-left:auto;color:var(--muted);font-size:16px;white-space:nowrap}
+.s-head .hold b{color:#fff;font-weight:600;font-variant-numeric:tabular-nums}
+.seat-form{margin:0}
+.map-wrap{overflow-x:auto;padding:48px 8px 0;scrollbar-width:thin}
+.map{--s:36px;--g:11px;width:max-content;margin:0 auto}
+.screen{width:calc(var(--s)*20 + var(--g)*19);height:90px;margin:0 auto;background:#5C5C60;clip-path:polygon(0 0,100% 0,89% 100%,11% 100%)}
+.throw{width:calc(var(--s)*20 + var(--g)*19);height:80px;margin:0 auto 32px;background:linear-gradient(180deg,rgba(130,130,150,.45),rgba(130,130,150,0));clip-path:polygon(11% 0,89% 0,95% 100%,5% 100%)}
+.seatgrid{display:grid;grid-template-columns:40px repeat(22,var(--s)) 40px;gap:var(--g);align-items:center}
+.seatgrid .rl{text-align:center;font-size:18px;font-weight:500}
+.seatgrid .aisle{grid-column:1/-1;height:calc(var(--s)*1.4)}
+/* Each seat is a checkbox under a square, so it works without JavaScript and reads as checked or not. */
+.seat{position:relative;display:block;width:var(--s);height:var(--s);cursor:pointer}
+.seat input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:inherit}
+.seat span{display:grid;place-items:center;width:100%;height:100%;border-radius:4px;background:var(--seat);font-size:11px;font-weight:700;color:transparent;pointer-events:none}
+.seat:hover input:not(:disabled) + span{background:#8E8E94}
+.seat.recl span{background:var(--recl)}
+.seat.recl:hover input:not(:disabled) + span{background:#33336a}
+.seat input:disabled{cursor:not-allowed}
+.seat input:disabled + span{background:var(--blue)}
+.seat input:checked + span{background:#fff;color:#000}
+.seat input:focus-visible + span{outline:2px solid var(--yellow);outline-offset:2px}
+/* A seat someone else took while this visitor wanted it. */
+.seat.lost input + span{background:var(--blue);box-shadow:inset 0 0 0 3px var(--yellow)}
+.map-line{height:1.5px;background:#1E3FBF;margin:44px auto 0;width:calc(var(--s)*22 + var(--g)*21)}
+.legend{display:flex;justify-content:center;flex-wrap:wrap;gap:14px 70px;margin:38px 0 0;font-size:18px;font-weight:500}
+.legend span{display:inline-flex;align-items:center;gap:14px}
+.legend i{width:34px;height:34px;border-radius:5px;display:inline-block}
+.lg-normal{background:var(--seat)}.lg-reserved{background:var(--blue)}.lg-recl{background:var(--recl)}.lg-selected{background:#fff}
+.prices{margin:18px 0 0;text-align:center;color:var(--muted);font-size:14.5px}
+.drag{display:none}
+.bbar{position:sticky;bottom:0;z-index:20;display:flex;align-items:stretch;gap:64px;margin-top:56px;padding-left:var(--pad);background:var(--navy);border-top:1px solid rgba(255,255,255,.06)}
+.bbar .bi{padding:24px 0}
+.bbar small{display:block;color:#7C7CA2;font-size:17px}
+.bbar b{display:block;font-size:24px;font-weight:450;letter-spacing:-.01em;margin-top:2px;white-space:nowrap;text-transform:uppercase}
+.chips{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;min-height:30px;align-items:center}
+.chips span{min-width:36px;height:30px;padding:0 6px;display:grid;place-items:center;background:#fff;color:#000;border-radius:4px;font-size:12px;font-weight:700}
+.chips em{font-style:normal;color:var(--faint);font-size:16px}
+.bbar .grow{flex:1;min-width:0}
+.bbar .cta{flex:none;width:330px;border:0;background:var(--blue);color:#fff;font-size:24px;font-weight:450}
+.bbar .cta:hover{background:var(--blue-h)}
+.bbar .cta:disabled{background:#15153a;color:#4a4a7a;cursor:not-allowed}
+/* Messages sit above the booking bar instead of over it. */
+.booking .toasts{bottom:130px}
+@media (max-width:1000px){.map{--s:28px;--g:8px}.bbar{gap:32px}.bbar .cta{width:240px}}
+@media (max-width:720px){
+  .s-head{gap:16px;padding-top:26px}
+  .back{width:46px;height:46px}
+  .s-head h1{font-size:27px}
+  .s-head .hold{font-size:14px}
+  .map{--s:24px;--g:6px}
+  .seatgrid{grid-template-columns:24px repeat(22,var(--s)) 24px}
+  .seatgrid .rl{font-size:13px}
+  .seat span{font-size:9px}
+  .legend{gap:12px 22px;font-size:13px}
+  .legend i{width:20px;height:20px}
+  .drag{display:block;text-align:center;color:var(--faint);font-size:13px;margin:10px 0 0}
+  .bbar{flex-wrap:wrap;gap:0 20px}
+  .bbar .when{display:none}
+  .bbar .grow{flex-basis:100%;padding:14px 0 4px}
+  .bbar .tot{padding:8px 0 16px;flex:1}
+  .bbar small{font-size:14px}
+  .bbar b{font-size:20px}
+  .bbar .cta{width:auto;flex:1;font-size:19px}
+  .booking .toasts{bottom:170px}
+}
+
 /* ---------- trailer preview: home hero and the movie page poster ---------- */
 /* The trailer is cropped to fill its box, and scaled up a little to keep YouTube's edges out of sight. */
 /* No z-index, so on the hero the darkening gradient still sits on top of the video. */
