@@ -22,14 +22,19 @@ final class Showtimes
      *
      * @return array<int, list<array{id: int, starts_at: DateTimeImmutable, format: string, language: string, hall: int}>>
      */
-    public static function forCinemaOn(int $cinemaId, DateTimeImmutable $day): array
+    public static function forCinemaOn(int $cinemaId, DateTimeImmutable $day, ?int $filmId = null): array
     {
+        $params = [$cinemaId, $day->format('Y-m-d 00:00:00'), $day->modify('+1 day')->format('Y-m-d 00:00:00')];
+        if ($filmId !== null) {
+            $params[] = $filmId;
+        }
         $rows = db_run(
             'SELECT s.id, s.film_id, s.starts_at, s.format, s.language, h.number AS hall
              FROM showtimes s JOIN halls h ON h.id = s.hall_id
-             WHERE h.cinema_id = ? AND s.starts_at >= ? AND s.starts_at < ? AND s.starts_at > NOW()
+             WHERE h.cinema_id = ? AND s.starts_at >= ? AND s.starts_at < ? AND s.starts_at > NOW()'
+             . ($filmId !== null ? ' AND s.film_id = ?' : '') . '
              ORDER BY s.starts_at, h.number',
-            [$cinemaId, $day->format('Y-m-d 00:00:00'), $day->modify('+1 day')->format('Y-m-d 00:00:00')],
+            $params,
         )->fetchAll();
 
         $byFilm = [];
@@ -43,6 +48,31 @@ final class Showtimes
             ];
         }
         return $byFilm;
+    }
+
+    /**
+     * One film's shows still to start at a cinema on a day, every format and language.
+     *
+     * @return list<array{id: int, starts_at: DateTimeImmutable, format: string, language: string, hall: int}>
+     */
+    public static function forFilm(int $filmId, int $cinemaId, DateTimeImmutable $day): array
+    {
+        return self::forCinemaOn($cinemaId, $day, $filmId)[$filmId] ?? [];
+    }
+
+    /**
+     * Days from $from to $to (inclusive) when a film has a show still to start at a cinema.
+     *
+     * @return list<string> dates as Y-m-d
+     */
+    public static function daysWithShows(int $filmId, int $cinemaId, DateTimeImmutable $from, DateTimeImmutable $to): array
+    {
+        return db_run(
+            'SELECT DISTINCT DATE(s.starts_at) AS day FROM showtimes s JOIN halls h ON h.id = s.hall_id
+             WHERE s.film_id = ? AND h.cinema_id = ? AND s.starts_at >= ? AND s.starts_at < ? AND s.starts_at > NOW()
+             ORDER BY day',
+            [$filmId, $cinemaId, $from->format('Y-m-d 00:00:00'), $to->modify('+1 day')->format('Y-m-d 00:00:00')],
+        )->fetchAll(\PDO::FETCH_COLUMN);
     }
 
     /**
