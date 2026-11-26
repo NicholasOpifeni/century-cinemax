@@ -20,6 +20,8 @@ bin/serve                                          # http://localhost:8090
 
 Showtimes only run two weeks ahead, so run `bin/generate-showtimes.php` again now and then. It skips days that already have shows.
 
+To make the halls look busy, `bin/php bin/seed-demo-bookings.php` fills upcoming shows with made-up paid bookings, 10 to 45 percent of the seats. They all use the phone number 256700000000, and `--clear` removes them again.
+
 `bin/php` runs MAMP's newest PHP 8, so you don't need it on your PATH.
 
 ## Credits
