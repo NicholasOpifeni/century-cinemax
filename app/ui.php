@@ -192,6 +192,8 @@ function film_colour_css(array $films): string
  *   scripts              extra files in assets/js to load
  *   footer               false to leave the footer off
  *   noindex              true to keep the page out of search engines
+ *   body_class           a class for <body>, like 'booking' for pages with the bottom bar
+ *   refresh              seconds before the page reloads itself, for pages that wait without JavaScript
  */
 function page_settings(?array $settings = null): array
 {
@@ -207,6 +209,7 @@ function page_settings(?array $settings = null): array
             'footer' => true,
             'noindex' => false,
             'body_class' => '',
+            'refresh' => null,
         ];
     }
     return $page;

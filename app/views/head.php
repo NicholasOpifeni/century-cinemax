@@ -16,6 +16,9 @@ $filmCss = film_colour_css($page['films']);
 <?php if ($page['noindex']): ?>
 <meta name="robots" content="noindex">
 <?php endif; ?>
+<?php if ($page['refresh'] !== null): ?>
+<meta http-equiv="refresh" content="<?= (int) $page['refresh'] ?>">
+<?php endif; ?>
 <meta name="theme-color" content="#07070B">
 <meta name="csrf-token" content="<?= e(csrf_token()) ?>">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
