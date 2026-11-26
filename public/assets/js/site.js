@@ -20,7 +20,8 @@
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   // Opens a dialog over the page. Focus stays inside it and goes back where it was on close.
-  function openDialog(html) {
+  // A dialog that isn't dismissable, like a payment in progress, ignores Escape and clicks outside.
+  function openDialog(html, { dismissable = true } = {}) {
     const veil = document.createElement('div');
     veil.className = 'veil';
     veil.innerHTML = html;
@@ -29,9 +30,9 @@
       veil.remove();
       if (opener && typeof opener.focus === 'function') opener.focus();
     };
-    veil.addEventListener('cmx:close', close);
+    if (dismissable) veil.addEventListener('cmx:close', close);
     veil.addEventListener('click', (e) => {
-      if (e.target === veil || e.target.closest('[data-close]')) close();
+      if ((dismissable && e.target === veil) || e.target.closest('[data-close]')) close();
     });
     veil.addEventListener('keydown', (e) => {
       if (e.key !== 'Tab') return;
