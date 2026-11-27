@@ -1,0 +1,143 @@
+/* Cinemax admin. Loaded after site.css and built from the same tokens, buttons, pills and fields:
+   tables, stat tiles and forms on the dark background, kept plain. */
+
+/* ---------- header ---------- */
+.adm-top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:28px;height:72px;padding:0 var(--pad);background:var(--navy);border-bottom:1px solid var(--line)}
+.adm-top .wm{font-size:17px;gap:7px}
+.adm-top .wm b{padding:4px 7px 3px}
+.adm-badge{margin-left:-14px;padding:3px 8px;border:1px solid var(--line-2);border-radius:5px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.adm-nav{display:flex;gap:6px;margin-left:12px;overflow-x:auto;scrollbar-width:none}
+.adm-nav a{padding:8px 12px;border-radius:7px;color:rgba(255,255,255,.8);text-decoration:none;font-size:15.5px;white-space:nowrap}
+.adm-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.adm-nav a[aria-current="page"]{background:rgba(255,255,255,.1);color:#fff}
+.adm-me{display:flex;align-items:center;gap:18px;margin-left:auto;font-size:15px;white-space:nowrap}
+.adm-me a{color:var(--soft)}
+.adm-me form{margin:0}
+.adm-me button{padding:7px 12px;border:1px solid var(--line-2);border-radius:7px;background:none;font-size:14.5px}
+.adm-me button:hover{background:#fff;color:#000}
+
+/* ---------- page ---------- */
+.adm-page{max-width:1320px;margin:0 auto;padding:40px var(--pad) 90px}
+.adm-head{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px 28px;margin-bottom:26px}
+.adm-head h1{margin:0;font-size:34px;font-weight:600;letter-spacing:-.03em;line-height:1.1}
+.adm-head p{margin:8px 0 0;max-width:70ch;color:var(--muted);font-size:16px}
+.adm-head p a{color:var(--soft)}
+.adm-page h2{margin:48px 0 14px;font-size:22px;font-weight:600;letter-spacing:-.015em}
+.adm-page h3{margin:26px 0 10px;font-size:15px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.crumbs{margin:0 0 10px;font-size:14.5px}
+.crumbs a{color:var(--muted)}
+.crumbs a::before{content:"← "}
+.adm-note{margin:12px 0 0;color:var(--faint);font-size:13.5px}
+.adm-note code{color:var(--muted)}
+.adm-alert{margin:0 0 22px;padding:14px 16px;border-radius:10px;background:rgba(255,138,138,.08);border:1px solid rgba(255,138,138,.35);color:#FFC2C2}
+.empty{color:var(--muted)}
+
+/* ---------- dashboard ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.stat{display:grid;gap:4px;padding:20px 22px;border-radius:12px;background:#101017;border:1px solid var(--line)}
+.stat small{color:var(--muted);font-size:14px}
+.stat b{font-size:28px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{color:var(--faint);font-size:13.5px}
+.occ{display:inline-flex;align-items:center;gap:12px}
+/* One colour for every bar, on a quiet track, instead of the browser's red-to-green meter. */
+.occ meter{width:140px;height:8px;border:0;border-radius:4px;background:rgba(255,255,255,.1);-webkit-appearance:none;appearance:none}
+.occ meter::-webkit-meter-bar{height:8px;border:0;border-radius:4px;background:rgba(255,255,255,.1)}
+.occ meter::-webkit-meter-optimum-value,.occ meter::-webkit-meter-suboptimum-value,.occ meter::-webkit-meter-even-less-good-value{border-radius:4px;background:var(--yellow)}
+.occ meter::-moz-meter-bar{border-radius:4px;background:var(--yellow)}
+.occ span{color:var(--soft);font-size:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* ---------- tables ---------- */
+/* position:relative keeps hidden labels inside the scrolling box, or they widen the page on phones */
+.table-wrap{position:relative;overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.adm-table{width:100%;border-collapse:collapse;font-size:15px}
+.adm-table th{padding:12px 16px;text-align:left;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:#0d0d14;white-space:nowrap}
+.adm-table td{padding:12px 16px;border-top:1px solid var(--line);vertical-align:middle}
+.adm-table td small{display:block;margin-top:2px;color:var(--muted);font-size:13px}
+.adm-table td small.inline{display:inline;margin:0 0 0 6px}
+.films-table td small{white-space:nowrap}
+.adm-table .num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.adm-table th.num{text-align:right}
+.adm-table td.num:last-child,.adm-table td.num:nth-last-child(2){text-align:right}
+.adm-table tr.dim td{color:var(--muted)}
+.adm-table a{color:#fff}
+.adm-table .strong{font-weight:600;text-decoration:none}
+.adm-table .strong:hover{text-decoration:underline}
+.adm-table .btn-sm{height:36px;padding:0 14px;font-size:14px}
+.thumb{width:56px}
+.thumb .pic{width:40px;aspect-ratio:2/3;border-radius:4px}
+.thumb .pt{display:none}
+.tag{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:5px;background:rgba(245,197,24,.14);color:var(--yellow);font-size:12px;font-weight:600;vertical-align:2px}
+.state{font-weight:550}
+.state-now{color:#7EE2A8}.state-soon{color:#8FB8FF}.state-ended{color:var(--muted)}
+
+/* ---------- forms ---------- */
+.adm .field > label,.adm .field .label{color:var(--soft);font-size:15px}
+.adm .field input,.adm .field textarea,.adm .field select{width:100%;padding:12px 14px;border:1px solid transparent;border-radius:9px;background:rgba(255,255,255,.06);font-size:16px;outline:none}
+.adm .field input{height:48px}
+.adm .field textarea{resize:vertical;line-height:1.5}
+.adm .field select{height:48px;appearance:none;-webkit-appearance:none}
+.adm .field select option{background:#14141c}
+.adm .field input:focus,.adm .field textarea:focus,.adm .field select:focus{border-color:var(--blue)}
+.adm .field [aria-invalid="true"]{border-color:#FF8A8A}
+.adm .field .err{margin:0;color:#FF8A8A;font-size:14.5px}
+.adm .field input[type="date"]{color-scheme:dark}
+.adm-form fieldset{margin:0 0 22px;padding:22px 24px 10px;border:1px solid var(--line);border-radius:12px;background:#0d0d14}
+.adm-form legend{padding:0 8px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.field-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px}
+.checks{display:flex;flex-wrap:wrap;gap:8px 24px}
+.adm .check{margin-top:0}
+.adm .field .check input{width:20px;height:20px;padding:0;border:0}
+.adm-actions{display:flex;gap:12px}
+
+.film-edit{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;align-items:start}
+.film-side{position:sticky;top:96px;display:grid;gap:18px;padding:18px;border-radius:12px;background:var(--tone);border:1px solid var(--line)}
+.side-poster{aspect-ratio:2/3;border-radius:8px}
+.side-facts{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;margin:0;font-size:14.5px}
+.side-facts dt{color:var(--muted)}
+.side-facts dd{margin:0}
+.side-facts a{color:#fff}
+.swatches{display:flex;align-items:center;gap:6px}
+.swatches i{width:22px;height:22px;border-radius:5px;border:1px solid var(--line-2)}
+.sw-accent{background:var(--accent)}.sw-tone{background:var(--tone)}
+.swatches code{margin-left:4px;color:var(--muted);font-size:12.5px}
+.film-side form{display:grid;gap:8px;margin:0}
+.film-side .btn{justify-self:start}
+.film-side .hint{margin:0;color:var(--muted);font-size:13.5px}
+
+/* ---------- log in ---------- */
+.adm-login{max-width:440px;margin:72px auto;padding:0 16px}
+.adm-login h1{margin:0 0 8px;font-size:32px;font-weight:600;letter-spacing:-.03em}
+.adm-login > p{margin:0 0 26px;color:var(--muted)}
+.adm-login > p a{color:var(--soft)}
+.adm-login form{display:grid;gap:4px}
+.adm-login .err{margin:0 0 6px;color:#FF8A8A}
+.adm-login .btn{justify-self:start;margin-top:14px}
+
+/* ---------- TMDB import ---------- */
+.adm-search{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 14px;margin:0 0 26px}
+.adm-search .field{flex:1;min-width:220px;margin:0}
+.adm-search .field.year{flex:0 0 130px;min-width:0}
+.adm-search .btn{height:48px}
+.tmdb-results{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.tmdb-results li{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:18px;align-items:center;padding:12px 18px 12px 12px;border-radius:12px;background:#101017;border:1px solid var(--line)}
+.tmdb-results .pic{aspect-ratio:2/3;border-radius:6px}
+.tmdb-results .pt{display:none}
+.tmdb-body b{font-size:17px;font-weight:600}
+.tmdb-body small{display:block;color:var(--muted);font-size:13.5px}
+.tmdb-body p{margin:6px 0 0;color:var(--soft);font-size:14.5px;line-height:1.5}
+.tmdb-results form{margin:0}
+
+@media (max-width:1080px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.film-edit{grid-template-columns:1fr}.film-side{position:static;grid-template-columns:120px 1fr;align-items:start}.film-side form{grid-column:1/-1}}
+@media (max-width:720px){
+  .adm-top{height:auto;flex-wrap:wrap;gap:10px 16px;padding:12px var(--pad)}
+  .adm-nav{order:3;width:100%;margin:0}
+  .adm-head h1{font-size:28px}
+  .stats{grid-template-columns:1fr 1fr;gap:10px}
+  .stat{padding:14px 16px}
+  .stat b{font-size:21px}
+  .field-row{grid-template-columns:1fr}
+  .adm-form fieldset{padding:18px 16px 6px}
+  .tmdb-results li{grid-template-columns:52px minmax(0,1fr)}
+  .tmdb-results li > :last-child{grid-column:2}
+  .occ meter{width:80px}
+}
