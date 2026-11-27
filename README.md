@@ -24,6 +24,8 @@ To make the halls look busy, `bin/php bin/seed-demo-bookings.php` fills upcoming
 
 `bin/php` runs MAMP's newest PHP 8, so you don't need it on your PATH.
 
+There's no mail server. When someone asks to reset their password, the reset link is written to `storage/logs/mail.log` instead of being emailed, and the page tells them to ask staff for it. Open that file to find the link.
+
 ## Credits
 
 - Geist by Vercel, under the SIL Open Font License.
