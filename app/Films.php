@@ -29,6 +29,21 @@ final class Films
         return $row ? self::hydrate($row) : null;
     }
 
+    public static function byId(int $id): ?array
+    {
+        $row = db_run('SELECT ' . self::COLUMNS . ' FROM films WHERE id = ?', [$id])->fetch();
+        return $row ? self::hydrate($row) : null;
+    }
+
+    /** Every film, for the admin: showing first, then coming soon by opening date, then ended. */
+    public static function all(): array
+    {
+        return self::many(
+            'ORDER BY (ends_on < CURDATE()) , (opens_on > CURDATE()), IF(opens_on > CURDATE(), opens_on, NULL), sort_order, ends_on DESC',
+            [],
+        );
+    }
+
     /** Films in cinemas on a given day, whether they opened long ago or open that day. */
     public static function showingOn(DateTimeImmutable $day): array
     {
