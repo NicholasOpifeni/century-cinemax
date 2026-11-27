@@ -24,6 +24,9 @@ $filmCss = film_colour_css($page['films']);
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="<?= e(asset('css/site.css')) ?>">
+<?php foreach ($page['styles'] as $style): ?>
+<link rel="stylesheet" href="<?= e(asset('css/' . $style)) ?>">
+<?php endforeach; ?>
 <script nonce="<?= e(csp_nonce()) ?>">document.documentElement.classList.add('js')</script>
 <?php if ($filmCss !== ''): ?>
 <style nonce="<?= e(csp_nonce()) ?>"><?= $filmCss ?></style>

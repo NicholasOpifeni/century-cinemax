@@ -188,9 +188,11 @@ function film_colour_css(array $films): string
  * Settings for the page being drawn. Pages pass them to page_open().
  *   title, description   for the <title> and meta description
  *   header               '' (plain), 'over' (sits on the hero) or 'dark' (booking pages)
- *   active               which main nav link is current: now, soon, cinemas, offers
+ *   active               which nav link is current: now, soon, cinemas, offers, account, or an admin section
  *   films                films whose colours the page uses, for film_class()
  *   scripts              extra files in assets/js to load
+ *   styles               extra files in assets/css to load, like admin.css
+ *   shell                'site', or 'admin' for the admin header
  *   footer               false to leave the footer off
  *   noindex              true to keep the page out of search engines
  *   body_class           a class for <body>, like 'booking' for pages with the bottom bar
@@ -211,6 +213,8 @@ function page_settings(?array $settings = null): array
             'noindex' => false,
             'body_class' => '',
             'refresh' => null,
+            'styles' => [],
+            'shell' => 'site',
         ];
     }
     return $page;
@@ -220,8 +224,22 @@ function page_open(array $settings = []): void
 {
     $page = page_settings($settings);
     require ROOT . '/app/views/head.php';
-    require ROOT . '/app/views/header.php';
+    require ROOT . '/app/views/' . ($page['shell'] === 'admin' ? 'admin-header.php' : 'header.php');
     echo "<main id=\"main\">\n";
+}
+
+/** Opens an admin page: the admin header, admin.css, no footer, kept out of search engines. */
+function admin_open(string $title, string $active = '', array $settings = []): void
+{
+    page_open($settings + [
+        'title' => $title . ', admin',
+        'shell' => 'admin',
+        'active' => $active,
+        'styles' => ['admin.css'],
+        'footer' => false,
+        'noindex' => true,
+        'body_class' => 'adm',
+    ]);
 }
 
 function page_close(): void
