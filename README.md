@@ -24,6 +24,8 @@ To make the halls look busy, `bin/php bin/seed-demo-bookings.php` fills upcoming
 
 `bin/php` runs MAMP's newest PHP 8, so you don't need it on your PATH.
 
+The admin is at http://localhost:8090/admin/. Log in with `admin_email` and `admin_password` from `config/secrets.php`; `database/seed.php` creates that account.
+
 There's no mail server. When someone asks to reset their password, the reset link is written to `storage/logs/mail.log` instead of being emailed, and the page tells them to ask staff for it. Open that file to find the link.
 
 ## Credits
