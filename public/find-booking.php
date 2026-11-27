@@ -2,14 +2,12 @@
 declare(strict_types=1);
 
 // Find my booking: the ticket number and the phone number it was paid with bring the ticket back.
-// Both have to match, and a visitor gets ten tries every ten minutes.
+// Both have to match, and a visitor gets ten wrong tries every ten minutes.
 
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 
 use App\Bookings;
-
-const FIND_TRIES = 10;
-const FIND_WINDOW = 600;
+use App\Throttle;
 
 $refInput = '';
 $phoneInput = '';
@@ -19,12 +17,9 @@ if (is_post()) {
     $refInput = mb_substr(is_string($_POST['ref'] ?? null) ? trim($_POST['ref']) : '', 0, 20);
     $phoneInput = mb_substr(is_string($_POST['phone'] ?? null) ? trim($_POST['phone']) : '', 0, 20);
 
-    $now = time();
-    $tries = array_values(array_filter((array) ($_SESSION['find_tries'] ?? []), fn (mixed $t): bool => is_int($t) && $t > $now - FIND_WINDOW));
-
     $ref = Bookings::parseRef($refInput);
     $phone = normalise_phone($phoneInput);
-    if (count($tries) >= FIND_TRIES) {
+    if (Throttle::tooMany('find', 10, 600)) {
         $error = 'That’s a lot of tries. Wait a few minutes, then check your ticket number and try again.';
     } elseif ($ref === null) {
         $error = 'Ticket numbers have eight letters and numbers, like K7QW2-MXP.';
@@ -33,13 +28,12 @@ if (is_post()) {
     } else {
         $found = db_run("SELECT ref FROM bookings WHERE ref = ? AND phone = ? AND status IN ('paid', 'cancelled')", [$ref, $phone])->fetchColumn();
         if ($found) {
-            unset($_SESSION['find_tries']);
+            Throttle::clear('find');
             redirect(Bookings::ticketPath((string) $found), 303);
         }
-        $tries[] = $now;
+        Throttle::hit('find', 600);
         $error = 'We couldn’t find a booking with that ticket number and phone number. Check both and try again.';
     }
-    $_SESSION['find_tries'] = $tries;
 }
 
 page_open([
@@ -55,7 +49,7 @@ page_open([
     <?= csrf_field() ?>
     <label class="field">
       <span>Ticket number</span>
-      <input name="ref" value="<?= e($refInput) ?>" placeholder="K7QW2-MXP" autocomplete="off" autocapitalize="characters" spellcheck="false" required<?= $error !== null ? ' aria-describedby="find-error"' : '' ?>>
+      <input class="ref" name="ref" value="<?= e($refInput) ?>" placeholder="K7QW2-MXP" autocomplete="off" autocapitalize="characters" spellcheck="false" required<?= $error !== null ? ' aria-describedby="find-error"' : '' ?>>
     </label>
     <span class="field-label" id="find-phone">Phone number</span>
     <label class="phone"><span>+256</span><input name="phone" value="<?= e($phoneInput) ?>" inputmode="tel" autocomplete="tel-national" placeholder="772 123 456" aria-labelledby="find-phone" required></label>
