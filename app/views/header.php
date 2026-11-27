@@ -7,6 +7,11 @@ use App\Cinemas;
 
 $cinemas = site_cinemas();
 $current = $cinemas ? Cinemas::current() : null;
+try {
+    $user = App\Users::current();
+} catch (PDOException) {
+    $user = null; // error pages still draw a header when the database is down
+}
 
 $nav = ['now' => 'Now showing', 'soon' => 'Coming soon', 'cinemas' => 'Cinemas', 'offers' => 'Offers'];
 $returnTo = local_path($_SERVER['REQUEST_URI'] ?? '/');
@@ -41,6 +46,7 @@ $returnTo = local_path($_SERVER['REQUEST_URI'] ?? '/');
       <button class="icon" type="submit" aria-label="Search" aria-controls="q" aria-expanded="false"><?= icon('search') ?></button>
       <div class="results" id="results" hidden></div>
     </form>
+    <a class="icon acct" href="<?= $user ? '/account.php' : '/login.php' ?>" aria-label="<?= $user ? 'My tickets' : 'Log in' ?>"<?= $page['active'] === 'account' ? ' aria-current="page"' : '' ?>><?= icon('user') ?></a>
     <details class="menu">
       <summary class="icon" aria-label="Menu"><?= icon('menu') ?></summary>
       <nav class="menu-panel" aria-label="Menu">
@@ -49,8 +55,16 @@ $returnTo = local_path($_SERVER['REQUEST_URI'] ?? '/');
         <?php endforeach; ?>
         <hr>
         <a href="/find-booking.php">Find my booking</a>
-        <a href="/account.php">My tickets</a>
+        <?php if ($user): ?>
+          <a href="/account.php">My tickets</a>
+        <?php else: ?>
+          <a href="/login.php">Log in</a>
+          <a href="/register.php">Create an account</a>
+        <?php endif; ?>
         <a href="/contact.php">Contact us</a>
+        <?php if ($user): ?>
+          <form method="post" action="/logout.php"><?= csrf_field() ?><button type="submit">Log out</button></form>
+        <?php endif; ?>
       </nav>
     </details>
   </div>

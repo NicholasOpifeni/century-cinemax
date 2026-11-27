@@ -49,7 +49,9 @@ $glassesPrice = Settings::int('glasses_price');
 $methods = ['mtn' => 'MTN MoMo', 'airtel' => 'Airtel Money', 'card' => 'Visa or Mastercard'];
 $method = $old['method'] ?? ($_SESSION['pay_method'] ?? 'mtn');
 $method = isset($methods[$method]) ? $method : 'mtn';
-$phone = $old['phone'] ?? (isset($_SESSION['phone']) ? substr(format_phone($_SESSION['phone']), 5) : '');
+// The number last paid with, or the logged-in customer's, without the +256.
+$knownPhone = $_SESSION['phone'] ?? (App\Users::current()['phone'] ?? null);
+$phone = $old['phone'] ?? (is_string($knownPhone) ? substr(format_phone($knownPhone), 5) : '');
 $hints = [
     'mtn' => 'We’ll send a payment prompt to this MTN number. Approve it with your PIN on your phone. This site never asks for your PIN.',
     'airtel' => 'We’ll send a payment prompt to this Airtel number. Approve it with your PIN on your phone. This site never asks for your PIN.',

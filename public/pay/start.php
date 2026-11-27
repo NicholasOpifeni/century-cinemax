@@ -59,7 +59,7 @@ if ($problem !== null) {
     $reply(false, $problem, 422, '/checkout.php');
 }
 
-$booking = Bookings::createPending($show, $key, $phone, $method, $quantities, $ownGlasses);
+$booking = Bookings::createPending($show, $key, $phone, $method, $quantities, $ownGlasses, App\Users::current()['id'] ?? null);
 if ($booking === null) {
     $reply(false, 'Time ran out, so we let your seats go. Pick them again.', 410, '/seats.php?show=' . $show['id']);
 }
